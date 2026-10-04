@@ -1,0 +1,216 @@
+{
+  "_todo": "Ganti cta.href dengan link DM Instagram Artemis (atau WhatsApp/form nanti). Ubah juga di en.json dan ja.json.",
+  "meta": {
+    "title": "Artemis | Agency AI untuk Website, Automasi, Video, dan Konsultasi",
+    "description": "Artemis membantu pemilik usaha dan profesional memanfaatkan AI melalui website, automasi kerja, video iklan, dan konsultasi."
+  },
+  "cta": {
+    "label": "Kirim Pesan",
+    "href": "https://www.instagram.com/"
+  },
+  "nav": [
+    {
+      "label": "Layanan",
+      "href": "#website"
+    },
+    {
+      "label": "Proses",
+      "href": "#process"
+    },
+    {
+      "label": "Folio",
+      "href": "#folio"
+    }
+  ],
+  "loader": {
+    "ready": "Siap",
+    "enter": "Masuk dengan musik",
+    "enterPlain": "Masuk",
+    "silent": "Masuk tanpa suara",
+    "hint": "Gulir untuk memulai"
+  },
+  "sound": {
+    "on": "Matikan musik",
+    "off": "Nyalakan musik"
+  },
+  "hud": {
+    "orbit": "Bagian",
+    "velocity": "Kecepatan",
+    "session": "Waktu"
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "eyebrow": "Artemis · Agency AI",
+      "title": "Kami membantu bisnis Anda memanfaatkan AI secara tepat.",
+      "body": "Kami membuat website yang meyakinkan calon klien, automasi yang menghemat waktu kerja, dan video iklan yang siap tayang.",
+      "cta": true
+    },
+    {
+      "id": "about",
+      "eyebrow": "Tentang Artemis",
+      "title": "Berfokus pada hasil yang nyata.",
+      "body": "Artemis adalah agency AI untuk pemilik usaha dan profesional. Kami membatasi jenis layanan agar setiap proyek dikerjakan dengan teliti dan dapat langsung digunakan."
+    },
+    {
+      "id": "website",
+      "eyebrow": "01 · Website",
+      "title": "Website yang meyakinkan calon klien.",
+      "body": "Kami membuat landing page, portofolio, dan website produk SaaS. Desainnya disesuaikan dengan identitas brand Anda, dapat menampilkan elemen 3D, dan tetap ringan di ponsel.",
+      "items": [
+        {
+          "label": "Landing page dan portofolio",
+          "value": "Rp 800 ribu – 5 juta"
+        },
+        {
+          "label": "Website dan landing page SaaS",
+          "value": "Rp 8 – 35 juta"
+        }
+      ]
+    },
+    {
+      "id": "automation",
+      "eyebrow": "02 · AI Automation",
+      "title": "Pekerjaan berulang berjalan otomatis.",
+      "body": "Berikut contoh alur yang kami bangun dengan n8n. Setelah aktif, alur tersebut kami pantau dan rawat setiap bulan.",
+      "items": [
+        {
+          "label": "1. Pesan masuk",
+          "value": "Dari WhatsApp, formulir, dan email"
+        },
+        {
+          "label": "2. Dibaca AI",
+          "value": "Maksud dan tingkat urgensi dikenali"
+        },
+        {
+          "label": "3. Pengecekan data",
+          "value": "Stok, jadwal, dan riwayat pelanggan"
+        },
+        {
+          "label": "4. Tindakan",
+          "value": "Membalas, membuat invoice, menjadwalkan"
+        },
+        {
+          "label": "5. Laporan",
+          "value": "Ringkasan harian untuk Anda dan tim"
+        }
+      ],
+      "note": "Mulai dari Rp 700 ribu · Alur menengah hingga kompleks Rp 3 – 30 juta",
+      "nodes": {
+        "wa": [
+          "WHATSAPP",
+          "pesan pelanggan"
+        ],
+        "form": [
+          "FORMULIR",
+          "dari website"
+        ],
+        "email": [
+          "EMAIL",
+          "kotak masuk"
+        ],
+        "ai": [
+          "AI AGENT",
+          "baca maksud & urgensi"
+        ],
+        "sheets": [
+          "GOOGLE SHEETS",
+          "cek stok"
+        ],
+        "crm": [
+          "CRM",
+          "riwayat pelanggan"
+        ],
+        "cal": [
+          "KALENDER",
+          "jadwal tersedia"
+        ],
+        "reply": [
+          "BALAS PESAN",
+          "jawaban otomatis"
+        ],
+        "invoice": [
+          "INVOICE",
+          "dibuat & dikirim"
+        ],
+        "book": [
+          "JADWALKAN",
+          "janji temu"
+        ],
+        "report": [
+          "LAPORAN",
+          "ringkasan harian"
+        ],
+        "notify": [
+          "NOTIFIKASI",
+          "kabari tim"
+        ]
+      }
+    },
+    {
+      "id": "video",
+      "eyebrow": "03 · AI Marketing Video",
+      "title": "Video iklan sinematik dengan bantuan AI.",
+      "body": "Kami menggunakan model video AI terbaru, kemudian menyeleksi, menyunting, dan menyesuaikannya dengan brand Anda. Hasil akhirnya siap diunggah ke Instagram, TikTok, dan YouTube.",
+      "items": [
+        {
+          "label": "Iklan dan konten video",
+          "value": "Harga sesuai brief"
+        }
+      ]
+    },
+    {
+      "id": "consultant",
+      "eyebrow": "04 · AI Consultant",
+      "title": "Pahami kebutuhan sebelum mengeluarkan biaya.",
+      "body": "Dalam satu sesi, kami memetakan proses bisnis Anda yang layak dibantu AI, alat yang sesuai, dan langkah awal yang paling realistis.",
+      "items": [
+        {
+          "label": "Hasil sesi",
+          "value": "Peta prioritas dan daftar alat"
+        },
+        {
+          "label": "Biaya",
+          "value": "Sesuai kebutuhan"
+        }
+      ]
+    },
+    {
+      "id": "process",
+      "eyebrow": "Proses",
+      "title": "Cara kami bekerja.",
+      "items": [
+        {
+          "label": "01 Diskusi",
+          "value": "Memahami tujuan dan anggaran Anda"
+        },
+        {
+          "label": "02 Perancangan",
+          "value": "Konsep, ruang lingkup, dan harga pasti"
+        },
+        {
+          "label": "03 Pengerjaan",
+          "value": "Laporan perkembangan secara berkala"
+        },
+        {
+          "label": "04 Serah terima",
+          "value": "File, akses, dan panduan penggunaan"
+        }
+      ]
+    },
+    {
+      "id": "folio",
+      "eyebrow": "Segera hadir",
+      "title": "Artemis Folio",
+      "body": "Platform untuk membuat website portofolio 3D dari CV Anda dalam hitungan menit, lengkap dengan tautan ke Instagram dan media sosial lainnya. Kami akan mengabari Anda saat sudah dapat dicoba."
+    },
+    {
+      "id": "target",
+      "eyebrow": "Mulai",
+      "title": "Ceritakan proyek Anda.",
+      "body": "Kirimkan pesan singkat mengenai kebutuhan Anda. Kami akan membalas dengan usulan langkah dan perkiraan biaya.",
+      "cta": true
+    }
+  ],
+  "footer": "© 2026 Artemis · Artificial Intelligence & Research Technology for Empowered Media and Information Systems"
+}

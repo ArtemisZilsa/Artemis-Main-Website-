@@ -1,0 +1,26 @@
+/* Satu-satunya tempat mengganti tema. HTML dan objek 3D (src/theme.js) membaca nilai ini. */
+:root {
+  --c-bg: #04050c;
+  --c-ink: #eef2f7;
+  --c-mute: #8b93a5;
+  --c-line: rgba(238, 242, 247, 0.12);
+  --c-glass: rgba(14, 20, 32, 0.55);
+  --c-neon: #00d4ff;      /* neon utama (cyan) */
+  --c-neon-2: #3dffa2;    /* neon kedua (hijau): data / automation */
+  --c-moon: #1b1e26;
+  --c-sun: #ffae5c;       /* matahari di bagian Proses */
+
+  --neon-strength: 1;     /* 0 = tanpa glow, 1.5 = glow kuat (bloom 3D) */
+
+  --font-display: "Sora", "Noto Sans JP", system-ui, sans-serif;
+  --font-brand: "Michroma", "Sora", sans-serif;
+  --font-mono: "Share Tech Mono", "Noto Sans JP", ui-monospace, monospace;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --radius: 2px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}

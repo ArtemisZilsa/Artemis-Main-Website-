@@ -1,0 +1,19 @@
+<!-- Artemis mark, redrawn from the raster logo (2026-10-03). Replace with the official vector when available. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="120 160 840 660" fill="currentColor">
+  <defs>
+    <mask id="knock">
+      <rect x="0" y="0" width="1100" height="1000" fill="#fff"/>
+      <line x1="175" y1="770" x2="930" y2="225" stroke="#000" stroke-width="64"/>
+    </mask>
+    <mask id="crescent">
+      <rect x="0" y="0" width="1100" height="1000" fill="#fff"/>
+      <circle cx="610" cy="395" r="215" fill="#000"/>
+      <line x1="175" y1="770" x2="930" y2="225" stroke="#000" stroke-width="64"/>
+    </mask>
+  </defs>
+  <circle cx="480" cy="465" r="272" fill="none" stroke="currentColor" stroke-width="22" mask="url(#knock)"/>
+  <circle cx="480" cy="465" r="236" mask="url(#crescent)"/>
+  <line x1="200" y1="752" x2="830" y2="297" stroke="currentColor" stroke-width="20"/>
+  <polygon points="930,225 854,360 816,307 778,254"/>
+  <polygon points="175,770 345,715 297,682 281,626"/>
+</svg>

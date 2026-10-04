@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artemis | Agency AI untuk website, automasi, video, dan konsultasi</title>
+  <meta name="description" content="Artemis membantu pemilik usaha dan profesional memakai AI: website yang dipercaya calon klien, automasi yang menghemat jam kerja, video iklan, dan konsultasi AI.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Artemis">
+  <meta property="og:title" content="Artemis | Agency AI">
+  <meta property="og:description" content="Website, automasi, video iklan, dan konsultasi AI untuk pemilik usaha dan profesional.">
+  <!-- Setelah online: ganti dengan URL absolut, mis. https://artemis-ai.netlify.app/assets/og.png -->
+  <meta property="og:image" content="assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="alternate" hreflang="id" href="./">
+  <link rel="alternate" hreflang="en" href="?lang=en">
+  <link rel="alternate" hreflang="ja" href="?lang=ja">
+  <meta name="theme-color" content="#04050c">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Noto+Sans+JP:wght@300;400&family=Share+Tech+Mono&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <script>document.documentElement.classList.add('js');</script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <canvas id="scene" aria-hidden="true"></canvas>
+
+  <div id="loader" role="dialog" aria-label="Memuat">
+    <div class="loader-ring"><span id="loader-count">000</span></div>
+    <p class="loader-status" id="loader-status"></p>
+    <button class="btn" id="loader-enter" disabled></button>
+    <button class="loader-silent" id="loader-silent" hidden></button>
+    <p class="loader-hint" id="loader-hint"></p>
+  </div>
+
+  <header class="nav">
+    <a class="brand" href="#hero" aria-label="Artemis">
+      <img src="assets/logo.svg" alt="" width="34" height="34">
+      <span>ARTEMIS</span>
+    </a>
+    <nav id="nav-links"></nav>
+    <div class="nav-right">
+      <button class="sound" id="sound" type="button" hidden aria-pressed="false"><i></i><i></i><i></i><i></i></button>
+      <nav class="lang" id="lang" aria-label="Bahasa / Language"></nav>
+      <a class="btn btn-sm" id="nav-cta" href="#target"></a>
+    </div>
+  </header>
+
+  <nav class="rail" id="rail" aria-label="Bagian halaman"></nav>
+
+  <main id="sections"></main>
+
+  <aside class="hud" aria-hidden="true">
+    <div><b id="hud-orbit-label"></b> <span id="hud-orbit">01/09</span> <i id="hud-name"></i></div>
+    <div><b id="hud-velocity-label"></b> <span id="hud-velocity">0.0</span></div>
+    <div><b>POS</b> <span id="hud-pos">X:0 Y:0 Z:0</span></div>
+    <div class="hud-right"><b id="hud-session-label"></b> <span id="hud-session">00:00</span> <b>FPS</b> <span id="hud-fps">60</span></div>
+  </aside>
+
+  <footer class="footer" id="footer"></footer>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+{
+  "meta": {
+    "title": "Artemis | AI Agency for Websites, Automation, Video, and Consulting",
+    "description": "Artemis helps business owners and professionals put AI to work through websites, workflow automation, ad videos, and consulting."
+  },
+  "cta": {
+    "label": "Send a Message",
+    "href": "https://www.instagram.com/"
+  },
+  "nav": [
+    {
+      "label": "Services",
+      "href": "#website"
+    },
+    {
+      "label": "Process",
+      "href": "#process"
+    },
+    {
+      "label": "Folio",
+      "href": "#folio"
+    }
+  ],
+  "loader": {
+    "ready": "Ready",
+    "enter": "Enter with music",
+    "enterPlain": "Enter",
+    "silent": "Enter without sound",
+    "hint": "Scroll to begin"
+  },
+  "sound": {
+    "on": "Mute music",
+    "off": "Play music"
+  },
+  "hud": {
+    "orbit": "Section",
+    "velocity": "Speed",
+    "session": "Time"
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "eyebrow": "Artemis · AI Agency",
+      "title": "We help your business use AI the right way.",
+      "body": "We build websites that win client trust, automations that save working hours, and ad videos that are ready to publish.",
+      "cta": true
+    },
+    {
+      "id": "about",
+      "eyebrow": "About Artemis",
+      "title": "Focused on results you can see.",
+      "body": "Artemis is an AI agency for business owners and professionals. We keep our services focused so every project is done carefully and ready to use from day one."
+    },
+    {
+      "id": "website",
+      "eyebrow": "01 · Website",
+      "title": "Websites that earn your clients' trust.",
+      "body": "Landing pages, portfolios, and websites for SaaS products. Designed around your brand, with optional 3D elements, and still fast on mobile.",
+      "items": [
+        {
+          "label": "Landing page and portfolio",
+          "value": "IDR 800K – 5M"
+        },
+        {
+          "label": "SaaS website and landing page",
+          "value": "IDR 8M – 35M"
+        }
+      ]
+    },
+    {
+      "id": "automation",
+      "eyebrow": "02 · AI Automation",
+      "title": "Repetitive work, running on its own.",
+      "body": "Here is an example of a workflow we build with n8n. Once it is live, we monitor and maintain it every month.",
+      "items": [
+        {
+          "label": "1. Message in",
+          "value": "From WhatsApp, forms, and email"
+        },
+        {
+          "label": "2. Read by AI",
+          "value": "Intent and urgency identified"
+        },
+        {
+          "label": "3. Data check",
+          "value": "Stock, schedule, customer history"
+        },
+        {
+          "label": "4. Action",
+          "value": "Reply, invoice, book"
+        },
+        {
+          "label": "5. Report",
+          "value": "Daily summary for you and your team"
+        }
+      ],
+      "note": "From IDR 700K · Mid-level to complex workflows IDR 3M – 30M",
+      "nodes": {
+        "wa": [
+          "WHATSAPP",
+          "customer chats"
+        ],
+        "form": [
+          "WEB FORM",
+          "from your site"
+        ],
+        "email": [
+          "EMAIL",
+          "inbox"
+        ],
+        "ai": [
+          "AI AGENT",
+          "intent & urgency"
+        ],
+        "sheets": [
+          "GOOGLE SHEETS",
+          "stock check"
+        ],
+        "crm": [
+          "CRM",
+          "customer history"
+        ],
+        "cal": [
+          "CALENDAR",
+          "open slots"
+        ],
+        "reply": [
+          "REPLY",
+          "automatic answer"
+        ],
+        "invoice": [
+          "INVOICE",
+          "created & sent"
+        ],
+        "book": [
+          "BOOKING",
+          "appointment set"
+        ],
+        "report": [
+          "REPORT",
+          "daily summary"
+        ],
+        "notify": [
+          "NOTIFY",
+          "alert the team"
+        ]
+      }
+    },
+    {
+      "id": "video",
+      "eyebrow": "03 · AI Marketing Video",
+      "title": "Cinematic ad videos, made with AI.",
+      "body": "We use the latest AI video models, then select, edit, and adapt the results to your brand. The final cut is ready for Instagram, TikTok, and YouTube.",
+      "items": [
+        {
+          "label": "Ads and video content",
+          "value": "Priced per brief"
+        }
+      ]
+    },
+    {
+      "id": "consultant",
+      "eyebrow": "04 · AI Consultant",
+      "title": "Know what you need before you spend.",
+      "body": "In one session, we map which parts of your business are worth supporting with AI, which tools fit, and the most realistic first step.",
+      "items": [
+        {
+          "label": "What you get",
+          "value": "Priority map and tool list"
+        },
+        {
+          "label": "Fee",
+          "value": "Based on your needs"
+        }
+      ]
+    },
+    {
+      "id": "process",
+      "eyebrow": "Process",
+      "title": "How we work.",
+      "items": [
+        {
+          "label": "01 Discussion",
+          "value": "Understanding your goals and budget"
+        },
+        {
+          "label": "02 Planning",
+          "value": "Concept, scope, and a fixed price"
+        },
+        {
+          "label": "03 Build",
+          "value": "Regular progress updates"
+        },
+        {
+          "label": "04 Handover",
+          "value": "Files, access, and a usage guide"
+        }
+      ]
+    },
+    {
+      "id": "folio",
+      "eyebrow": "Coming soon",
+      "title": "Artemis Folio",
+      "body": "A platform that turns your CV into a 3D portfolio website in minutes, complete with links to Instagram and your other social media. We will let you know when it is ready to try."
+    },
+    {
+      "id": "target",
+      "eyebrow": "Get started",
+      "title": "Tell us about your project.",
+      "body": "Send a short message about what you need. We will reply with suggested next steps and an estimated cost.",
+      "cta": true
+    }
+  ],
+  "footer": "© 2026 Artemis · Artificial Intelligence & Research Technology for Empowered Media and Information Systems"
+}
