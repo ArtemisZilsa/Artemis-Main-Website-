@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import { rng } from '../theme.js';
 
-// Tiga halaman website melayang: landing page bergambar luar angkasa (depan),
-// dashboard trading, dan galeri portofolio. Semua digambar di canvas, tanpa file gambar.
+// Halaman website melayang yang bergantian tiap CYCLE detik (landing, toko, persona, trading, kafe, galeri):
+// kartu depan terlempar, kartu belakang maju, desain baru muncul dengan glitch. Semua digambar di canvas.
+// Menambah desain: tulis fungsi gambar baru dan masukkan ke PAGES.
 
 const W = 1024;
 const H = 628;
@@ -212,6 +213,138 @@ function gallery(g) {
   });
 }
 
+function store(g) {
+  g.fillStyle = '#0b0a10';
+  g.fillRect(0, 0, W, H);
+  g.fillStyle = '#e8eef5'; g.font = `600 22px ${FONT}`; g.fillText('LUMA', 40, 40);
+  g.fillStyle = 'rgba(232,238,245,0.45)';
+  [420, 500, 580, 660].forEach((x) => g.fillRect(x, 30, 56, 7));
+  g.strokeStyle = '#e8eef5'; g.lineWidth = 2.5; rr(g, 930, 20, 28, 24, 5); g.stroke();
+  g.fillStyle = '#ff4d6d'; g.beginPath(); g.arc(960, 20, 9, 0, Math.PI * 2); g.fill();
+  g.fillStyle = '#fff'; g.font = `600 11px ${FONT}`; g.fillText('3', 957, 24);
+  // Banner promo
+  const ban = g.createLinearGradient(24, 0, 1000, 0);
+  ban.addColorStop(0, '#2a0f3d'); ban.addColorStop(1, '#ff7a59');
+  g.fillStyle = ban; rr(g, 24, 64, 976, 190, 18); g.fill();
+  g.fillStyle = '#fff'; g.font = `700 50px ${FONT}`; g.fillText('Summer Drop', 60, 150);
+  g.fillStyle = '#ffd36e'; g.font = `700 30px ${FONT}`; g.fillText('-30% semua koleksi', 62, 196);
+  g.fillStyle = 'rgba(255,255,255,0.18)';
+  g.beginPath(); g.arc(840, 160, 120, 0, Math.PI * 2); g.fill();
+  g.fillStyle = '#fff'; rr(g, 770, 110, 140, 100, 22); g.fill(); // tas
+  g.strokeStyle = '#fff'; g.lineWidth = 8; g.beginPath(); g.arc(840, 112, 34, Math.PI, 0); g.stroke();
+  // Grid produk
+  const items = [['#00d4ff', 'Botol', '149.000'], ['#3dffa2', 'Tas', '349.000'], ['#ffae5c', 'Jam', '899.000'], ['#9b7bff', 'Headset', '529.000']];
+  items.forEach(([col, name, price], i) => {
+    const x = 24 + i * 248;
+    g.fillStyle = '#15141c'; rr(g, x, 276, 232, 330, 14); g.fill();
+    const glow = g.createRadialGradient(x + 116, 380, 0, x + 116, 380, 90);
+    glow.addColorStop(0, col); glow.addColorStop(1, 'rgba(0,0,0,0)');
+    g.globalAlpha = 0.45; g.fillStyle = glow; g.fillRect(x, 290, 232, 180); g.globalAlpha = 1;
+    g.fillStyle = col;
+    if (i === 0) { rr(g, x + 96, 320, 40, 110, 12); g.fill(); }
+    else if (i === 1) { rr(g, x + 66, 350, 100, 80, 14); g.fill(); }
+    else if (i === 2) { g.beginPath(); g.arc(x + 116, 380, 42, 0, Math.PI * 2); g.fill(); }
+    else { g.lineWidth = 12; g.strokeStyle = col; g.beginPath(); g.arc(x + 116, 390, 44, Math.PI, 0); g.stroke(); rr(g, x + 62, 384, 24, 44, 8); g.fill(); rr(g, x + 146, 384, 24, 44, 8); g.fill(); }
+    g.fillStyle = '#e8eef5'; g.font = `600 19px ${FONT}`; g.fillText(name, x + 18, 508);
+    g.fillStyle = '#3dffa2'; g.font = `600 17px ${FONT}`; g.fillText(`Rp ${price}`, x + 18, 536);
+    g.fillStyle = '#e8eef5'; rr(g, x + 18, 554, 196, 36, 18); g.fill();
+    g.fillStyle = '#0b0a10'; g.font = `600 14px ${FONT}`; g.fillText('+ Keranjang', x + 72, 577);
+  });
+}
+
+function cafe(g) {
+  g.fillStyle = '#120c08';
+  g.fillRect(0, 0, W, H);
+  g.fillStyle = '#f3e3cf'; g.font = `600 24px ${FONT}`; g.fillText('Kopi Senja', 40, 42);
+  g.fillStyle = 'rgba(243,227,207,0.45)';
+  [560, 650, 740].forEach((x) => g.fillRect(x, 31, 60, 7));
+  g.fillStyle = '#ffae5c'; rr(g, 850, 16, 150, 34, 17); g.fill();
+  g.fillStyle = '#120c08'; g.font = `600 15px ${FONT}`; g.fillText('Reservasi', 890, 39);
+  // Foto hero: langit senja + cangkir beruap
+  g.save();
+  rr(g, 24, 66, 560, 536, 18); g.clip();
+  const sky = g.createLinearGradient(0, 66, 0, 602);
+  sky.addColorStop(0, '#3b1d3a'); sky.addColorStop(0.5, '#d9734e'); sky.addColorStop(1, '#2a160d');
+  g.fillStyle = sky; g.fillRect(24, 66, 560, 536);
+  g.fillStyle = 'rgba(255,214,150,0.85)'; g.beginPath(); g.arc(400, 250, 70, 0, Math.PI * 2); g.fill();
+  g.fillStyle = '#1b0f09'; g.fillRect(24, 430, 560, 172);
+  g.fillStyle = '#f3e3cf'; rr(g, 200, 340, 170, 120, 26); g.fill();
+  g.strokeStyle = '#f3e3cf'; g.lineWidth = 14; g.beginPath(); g.arc(380, 395, 30, -Math.PI / 2, Math.PI / 2); g.stroke();
+  g.fillStyle = '#6b3b1f'; g.beginPath(); g.ellipse(285, 344, 80, 12, 0, 0, Math.PI * 2); g.fill();
+  g.strokeStyle = 'rgba(255,255,255,0.5)'; g.lineWidth = 5;
+  for (const x of [250, 290, 330]) {
+    g.beginPath(); g.moveTo(x, 320);
+    g.bezierCurveTo(x - 20, 290, x + 20, 270, x, 230); g.stroke();
+  }
+  g.restore();
+  g.fillStyle = '#f3e3cf'; g.font = `600 40px ${FONT}`; g.fillText('Menu hari ini', 620, 120);
+  [['Es Kopi Susu', '28K'], ['Americano', '24K'], ['Matcha Latte', '32K'], ['Croissant', '22K'], ['Nasi Goreng Senja', '45K']].forEach(([n, p], i) => {
+    const y = 180 + i * 64;
+    g.fillStyle = '#f3e3cf'; g.font = `400 21px ${FONT}`; g.fillText(n, 620, y);
+    g.fillStyle = '#ffae5c'; g.font = `600 21px ${FONT}`; g.fillText(p, 940, y);
+    g.fillStyle = 'rgba(243,227,207,0.15)'; g.fillRect(620, y + 18, 380, 1);
+  });
+  g.fillStyle = 'rgba(243,227,207,0.6)'; g.font = `400 16px ${FONT}`; g.fillText('Buka setiap hari · 08.00 – 22.00', 620, 520);
+}
+
+function persona(g) {
+  g.fillStyle = '#06080d';
+  g.fillRect(0, 0, W, H);
+  // Foto profil
+  const ring = g.createLinearGradient(60, 60, 300, 300);
+  ring.addColorStop(0, '#00d4ff'); ring.addColorStop(1, '#3dffa2');
+  g.fillStyle = ring; g.beginPath(); g.arc(170, 190, 116, 0, Math.PI * 2); g.fill();
+  g.save();
+  g.beginPath(); g.arc(170, 190, 108, 0, Math.PI * 2); g.clip();
+  const bg = g.createLinearGradient(0, 80, 0, 300);
+  bg.addColorStop(0, '#5b2a86'); bg.addColorStop(1, '#ff7a59');
+  g.fillStyle = bg; g.fillRect(60, 80, 220, 220);
+  g.fillStyle = '#1a1020';
+  g.beginPath(); g.arc(170, 170, 40, 0, Math.PI * 2); g.fill();
+  g.beginPath(); g.ellipse(170, 290, 80, 70, 0, 0, Math.PI * 2); g.fill();
+  g.restore();
+  g.fillStyle = '#fff'; g.font = `600 46px ${FONT}`; g.fillText('Alya Pratama', 330, 160);
+  g.fillStyle = '#00d4ff'; g.font = `400 22px ${FONT}`; g.fillText('Fotografer & Content Creator', 332, 200);
+  g.fillStyle = 'rgba(255,255,255,0.6)'; g.font = `400 17px ${FONT}`; g.fillText('Jakarta · Tersedia untuk proyek brand', 332, 236);
+  [['Instagram', '128K', '#e1306c'], ['TikTok', '86K', '#3dffa2'], ['YouTube', '24K', '#ff4d4d']].forEach(([n, c, col], i) => {
+    const x = 332 + i * 196;
+    g.strokeStyle = col; g.lineWidth = 2; rr(g, x, 262, 180, 46, 23); g.stroke();
+    g.fillStyle = col; g.beginPath(); g.arc(x + 26, 285, 8, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#fff'; g.font = `600 16px ${FONT}`; g.fillText(`${n} ${c}`, x + 44, 291);
+  });
+  g.fillStyle = '#3dffa2'; rr(g, 860, 30, 140, 40, 20); g.fill();
+  g.fillStyle = '#06080d'; g.font = `600 16px ${FONT}`; g.fillText('Hire me', 900, 56);
+  ['sunset', 'aurora', 'ocean', 'nebula'].forEach((k, i) => scene(g, 40 + i * 242, 350, 226, 250, k));
+}
+
+const PAGES = [landing, store, persona, trading, cafe, gallery];
+const CYCLE = 2.8; // detik per desain
+const SWAP = 0.75; // durasi pergantian
+
+// Halaman dengan efek glitch (geser blok, pisah RGB, kotak putih) saat baru tampil.
+function pageMaterial(map) {
+  return new THREE.ShaderMaterial({
+    uniforms: { map: { value: map }, uTint: { value: new THREE.Color() }, uOpacity: { value: 1 }, uGlitch: { value: 0 }, uTime: { value: 0 } },
+    vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: /* glsl */ `
+      uniform sampler2D map; uniform vec3 uTint; uniform float uOpacity, uGlitch, uTime; varying vec2 vUv;
+      float h(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+      void main() {
+        vec2 uv = vUv;
+        float tick = floor(uTime * 24.0);
+        float r = h(vec2(floor(uv.y * 22.0), tick));
+        uv.x += (r - 0.5) * 0.16 * uGlitch * step(0.6, r);
+        float s = 0.014 * uGlitch;
+        vec3 c = vec3(texture2D(map, uv + vec2(s, 0.0)).r, texture2D(map, uv).g, texture2D(map, uv - vec2(s, 0.0)).b);
+        float b = h(floor(uv * vec2(18.0, 11.0)) + tick);
+        c = mix(c, vec3(1.0), step(1.0 - 0.16 * uGlitch, b));
+        c *= 1.0 - 0.18 * uGlitch * step(0.5, fract(vUv.y * 180.0));
+        gl_FragColor = vec4(c * uTint, uOpacity);
+      }`,
+    transparent: true,
+  });
+}
+
 export function create(theme) {
   const group = new THREE.Group();
   const rig = new THREE.Group();
@@ -219,31 +352,55 @@ export function create(theme) {
 
   const plane = new THREE.PlaneGeometry(4.4, 2.7);
   const edges = new THREE.EdgesGeometry(plane);
-  const pages = [gallery, trading, landing]; // terakhir = paling depan
-  const panels = pages.map((draw, i) => {
-    const front = i === pages.length - 1;
+  const textures = PAGES.map(pageTexture);
+  const edgeBack = theme.glow(theme.neon, 1);
+  const edgeFront = theme.glow(theme.neon, 2.4);
+  // 4 kartu bergiliran: depan, 2 di belakang, 1 tersembunyi yang masuk dari paling belakang.
+  const cards = Array.from({ length: 4 }, () => {
+    const mat = pageMaterial(textures[0]);
+    const line = new THREE.LineBasicMaterial({ color: edgeBack.clone(), transparent: true });
     const p = new THREE.Group();
-    p.add(new THREE.Mesh(plane, new THREE.MeshBasicMaterial({
-      map: pageTexture(draw), color: theme.ink.clone().multiplyScalar(front ? 0.9 : 0.7), transparent: true, opacity: front ? 1 : 0.9,
-    })));
-    p.add(new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: theme.glow(theme.neon, front ? 2.4 : 1), transparent: true, opacity: front ? 1 : 0.6 })));
+    p.add(new THREE.Mesh(plane, mat), new THREE.LineSegments(edges, line));
     rig.add(p);
-    return p;
+    return { p, mat, line };
   });
   // Lapisan kaca di atas halaman depan: kilau yang menyapu.
   const glass = theme.glass(0);
   const sheen = new THREE.Mesh(plane, glass);
-  sheen.position.z = 0.01;
-  panels.at(-1).add(sheen);
+  rig.add(sheen);
 
   return {
     group,
     update(t, { local, mouse }) {
       const open = 1 - Math.min(1, Math.abs(local));
-      panels.forEach((p, i) => {
-        const d = i - (panels.length - 1); // 0 = depan, negatif = di belakang
-        p.position.set(d * (0.35 + 0.75 * open), d * (-0.05 - 0.3 * open), d * (0.25 + 0.6 * open));
+      const slot = (d, v) => v.set(d * (0.35 + 0.75 * open), d * (-0.05 - 0.3 * open), d * (0.25 + 0.6 * open));
+      const n = Math.floor(t / CYCLE);
+      const into = t - n * CYCLE; // detik sejak desain depan sekarang tampil
+      const s = THREE.MathUtils.smootherstep(into, CYCLE - SWAP, CYCLE);
+      cards.forEach((c, j) => {
+        const rank = (j + n) % 4; // 3 = depan, 0 = tersembunyi
+        c.mat.uniforms.map.value = textures[(n + 3 - rank) % PAGES.length];
+        c.mat.uniforms.uTime.value = t;
+        if (rank === 3) {
+          // Kartu depan terlempar ke samping saat berganti.
+          slot(0, c.p.position).add(new THREE.Vector3(3 * s, 0.5 * s, 1.2 * s));
+          c.p.rotation.set(0, -0.8 * s, 0.15 * s);
+          c.mat.uniforms.uOpacity.value = 1 - s;
+          c.mat.uniforms.uGlitch.value = Math.max(1 - into / 0.5, 0) + s * 0.6;
+        } else {
+          const d = rank - 3 + s;
+          slot(d, c.p.position);
+          c.p.rotation.set(0, 0, 0);
+          c.mat.uniforms.uOpacity.value = rank === 0 ? s * 0.9 : 0.9 + 0.1 * Math.max(d + 1, 0);
+          c.mat.uniforms.uGlitch.value = rank === 2 ? s * s * 0.5 : 0;
+        }
+        const front = Math.max(1 + Math.min(rank - 3 + s, 0), 0) * (rank === 3 ? 1 - s : 1);
+        c.mat.uniforms.uTint.value.copy(theme.ink).multiplyScalar(0.7 + 0.2 * front);
+        c.line.color.copy(edgeBack).lerp(edgeFront, front);
+        c.line.opacity = c.mat.uniforms.uOpacity.value;
       });
+      slot(0, sheen.position).z += 0.01;
+      sheen.visible = s === 0;
       rig.rotation.set(0.06 - mouse.y * 0.1, -0.5 + mouse.x * 0.2 + Math.sin(t * 0.3) * 0.05, 0);
       rig.position.y = Math.sin(t * 0.6) * 0.08;
       glass.uniforms.uTime.value = t;

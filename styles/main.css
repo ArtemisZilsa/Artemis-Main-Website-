@@ -175,14 +175,32 @@ main { position: relative; z-index: 10; }
   display: grid; gap: .55rem;
 }
 .rail a {
-  display: flex; align-items: center; justify-content: flex-end; gap: .5rem;
+  display: flex; align-items: center; justify-content: flex-end; gap: .5rem; min-height: 18px;
   font: .68rem var(--font-mono); letter-spacing: .1em; color: color-mix(in srgb, var(--c-mute) 60%, transparent); text-decoration: none;
   transition: color .3s var(--ease);
 }
-.rail a::after { content: ""; width: 10px; height: 1px; background: currentColor; transition: width .4s var(--ease), background-color .3s; }
+.rail b { font-weight: 400; }
+/* Nama section hanya tampil di yang aktif (gaya Resn: "SCIENCE ◯") */
+.rail-label {
+  font: 400 .66rem var(--font-brand); letter-spacing: .18em; text-transform: uppercase; color: var(--c-ink); white-space: nowrap;
+  opacity: 0; transform: translateX(10px); transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.rail a.active .rail-label, .rail a:hover .rail-label { opacity: 1; transform: none; }
+.rail a::after {
+  content: ""; width: 10px; height: 1px; background: currentColor; border: 1px solid transparent; border-radius: 0;
+  transition: width .4s var(--ease), height .4s var(--ease), border-radius .4s var(--ease), background .3s, border-color .3s;
+}
 .rail a:hover, .rail a:focus-visible { color: var(--c-ink); }
 .rail a.active { color: var(--c-neon); text-shadow: 0 0 10px color-mix(in srgb, var(--c-neon) 70%, transparent); }
-.rail a.active::after { width: 26px; box-shadow: 0 0 8px var(--c-neon); }
+.rail a.active::after {
+  width: 16px; height: 16px; border-radius: 50%; border-color: var(--c-neon);
+  background: radial-gradient(circle, var(--c-neon) 0 2px, transparent 2.5px);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--c-neon) 60%, transparent);
+}
+
+/* Judul glitch saat muncul: huruf tersembunyi → kotak putih berkedip → huruf asli */
+.gl-h { color: transparent; }
+.gl-b { background: var(--c-ink); color: var(--c-bg); }
 
 /* ---------- HUD ---------- */
 .hud {

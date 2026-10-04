@@ -7,7 +7,7 @@ import * as THREE from 'three';
 // Section tanpa baris di sini tetap tampil (kamera berhenti di tengah, teks di tengah).
 export const stops = {
   hero:       { at: [0, 0, 0],      dist: 14, side: 'right' },
-  about:      { at: [0, 0, -60],    dist: 8,  side: 'center' },
+  about:      { at: [0, 0, -60],    dist: 10, side: 'right' },
   website:    { at: [9, 1, -120],   dist: 11, side: 'right' },
   automation: { at: [-9, -1, -180], dist: 13, side: 'left' },
   video:      { at: [9, 0, -240],   dist: 11, side: 'right' },

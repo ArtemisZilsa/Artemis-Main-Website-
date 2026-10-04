@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { stops } from '../camera-path.js';
 import { smoothstep, moonMaterial, dotTexture } from '../theme.js';
+import { createEmbers, pointScale } from '../fx.js';
 
 const ARROW_TILT = 0.62; // kemiringan panah di logo
 
@@ -169,38 +170,156 @@ function buildFloor(theme) {
   return floor;
 }
 
-export function create(theme) {
+// Pose panah saat tertancap di pusat section About (dipakai juga oleh stations/about.js).
+// Posisi relatif terhadap pusat About; ujung panah (x = 4.6) masuk sedikit ke pusat.
+export const PLANTED = (() => {
+  const dir = new THREE.Vector3(-0.45, -0.4, -0.8).normalize();
+  const scale = 0.5;
+  const quaternion = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(1, 0, 0), dir);
+  const position = dir.clone().multiplyScalar(-(4.6 * scale - 0.5));
+  return { dir, scale, quaternion, position };
+})();
+
+const LAUNCH = 0.12; // titik scroll (local) saat panah lepas
+const HIT = 0.8;     // titik scroll saat panah menancap (sedikit sebelum kamera tiba)
+
+// Semburan api di belakang ekor: kerucut aditif dengan kedip noise.
+function buildFlame(theme) {
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 }, uPower: { value: 0 }, uHot: { value: new THREE.Color(4, 3, 1.6) }, uCool: { value: theme.glow(theme.sun, 1.6) } },
+    vertexShader: /* glsl */ `
+      varying vec2 vUv; varying float vEdge;
+      void main() {
+        vUv = uv;
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vEdge = abs(dot(normalize(normalMatrix * normal), normalize(-mv.xyz)));
+        gl_Position = projectionMatrix * mv;
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform float uTime, uPower; uniform vec3 uHot, uCool; varying vec2 vUv; varying float vEdge;
+      void main() {
+        float along = vUv.y; // 0 = pangkal di ekor, 1 = ujung api
+        float flick = 0.75 + 0.25 * sin(uTime * 40.0 + vUv.x * 30.0) * sin(uTime * 23.0 + along * 12.0);
+        float streak = 0.6 + 0.4 * sin(vUv.x * 60.0 + uTime * 30.0 - along * 20.0);
+        float a = pow(1.0 - along, 1.6) * pow(vEdge, 2.0) * flick * streak * uPower;
+        gl_FragColor = vec4(mix(uHot, uCool, along) * a, a);
+      }`,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+  });
+  const cone = new THREE.Mesh(new THREE.ConeGeometry(0.32, 1, 24, 1, true), mat);
+  cone.rotation.z = Math.PI / 2; // ujung kerucut menghadap -x (ke belakang panah)
+  return cone;
+}
+
+export function create(theme, quality) {
   const group = new THREE.Group();
   const mark = buildMark(theme);
   const wordmark = buildWordmark(theme);
   const floor = buildFloor(theme);
   group.add(mark.group, wordmark, floor);
 
-  // Panah dilepas dari logo dan terbang ke section "about".
+  // Panah dilepas dari logo, mengisi tenaga, lalu melesat berapi ke pusat section "about".
   const arrow = mark.arrow;
   group.add(arrow); // lepas dari mark supaya tidak ikut miring oleh mouse
   const startPos = arrow.position.clone();
   const startQ = arrow.quaternion.clone();
-  const endPos = new THREE.Vector3().fromArray(stops.about.at).sub(new THREE.Vector3().fromArray(stops.hero.at)).add(new THREE.Vector3(0, 2.2, -6));
-  const endQ = new THREE.Quaternion().setFromEuler(new THREE.Euler(0.25, Math.PI / 2 - 0.55, 0.1));
-  const forward = new THREE.Vector3(1, 0, 0).applyQuaternion(endQ);
+  const aboutAt = new THREE.Vector3().fromArray(stops.about.at).sub(new THREE.Vector3().fromArray(stops.hero.at));
+  const endPos = aboutAt.clone().add(PLANTED.position);
+  // Lintasan kurva yang selalu berada di depan kamera (kanan-atas layar), lalu menukik ke pusat About.
+  const path = new THREE.CubicBezierCurve3(
+    startPos,
+    startPos.clone().add(new THREE.Vector3(1, 1.5, -16)),
+    endPos.clone().addScaledVector(PLANTED.dir, -6).add(new THREE.Vector3(0, 0.5, 0)),
+    endPos,
+  );
+  const tangent = new THREE.Vector3();
+  const along = new THREE.Quaternion();
+  const X = new THREE.Vector3(1, 0, 0);
 
-  return {
+  const flame = buildFlame(theme);
+  arrow.add(flame);
+  const heat = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTexture(), color: theme.glow(theme.sun, 2.5), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+  heat.position.x = 4.5;
+  arrow.add(heat);
+
+  const embers = createEmbers(quality.low ? 700 : 1600, pointScale(quality.dpr));
+  group.add(embers.points);
+  const tail = new THREE.Vector3();
+  const head = new THREE.Vector3();
+  const back = new THREE.Vector3();
+  const lastPos = startPos.clone();
+
+  // Gelombang kejut di titik lepas
+  const shock = new THREE.Mesh(
+    new THREE.RingGeometry(0.97, 1, 96),
+    new THREE.MeshBasicMaterial({ color: theme.glow(theme.sun, 2.5), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }),
+  );
+  shock.position.copy(startPos);
+  const shock2 = shock.clone();
+  shock2.material = shock.material.clone();
+  shock2.material.color = theme.glow(theme.neon, 2.5);
+  group.add(shock, shock2);
+
+  let lastT = 0;
+  const api = {
     group,
+    shake: 0, // dibaca main.js → kamera bergetar
     update(t, { local, mouse }) {
+      const dt = Math.min(Math.max(t - lastT, 0), 0.05);
+      lastT = t;
+      mark.group.position.y = -smoothstep(0.1, 0.45, local) * 6; // bulan turun menjauh saat panah lepas
       mark.group.rotation.y = mouse.x * 0.3;
       mark.group.rotation.x = 0.08 - mouse.y * 0.2;
       mark.spin(t);
       wordmark.position.x = -mouse.x * 0.8;
-      wordmark.material.opacity = 1 - smoothstep(0, 0.5, local);
+      wordmark.material.opacity = 1 - smoothstep(0, 0.22, local);
       floor.position.z = (t * 0.4) % 0.5; // titik mengalir pelan ke arah kamera
 
-      const k = smoothstep(0.08, 0.95, local);
-      arrow.position.lerpVectors(startPos, endPos, k);
-      arrow.position.y += Math.sin(k * Math.PI) * 1.6;
-      arrow.position.addScaledVector(forward, Math.max(0, local - 1) * 40);
-      arrow.quaternion.slerpQuaternions(startQ, endQ, k);
-      arrow.visible = local < 1.5;
+      // 1) Mengisi tenaga: bergetar, kepala memanas.  2) Melesat di sepanjang kurva.
+      const charge = smoothstep(0.01, LAUNCH, local);
+      const k = smoothstep(LAUNCH, HIT, local);
+      const flying = k > 0 && k < 1;
+      path.getPointAt(k, arrow.position);
+      if (k === 0 && charge > 0) arrow.position.add(back.set(Math.sin(t * 90), Math.sin(t * 73), 0).multiplyScalar(0.03 * charge));
+      path.getTangentAt(Math.min(k, 0.999), tangent);
+      along.setFromUnitVectors(X, tangent.normalize());
+      arrow.quaternion.slerpQuaternions(startQ, along, smoothstep(0, 0.12, k));
+      arrow.scale.setScalar(1 - (1 - PLANTED.scale) * k);
+      arrow.visible = local < HIT + 0.02;
+
+      const speed = arrow.position.distanceTo(lastPos) / Math.max(dt, 1e-3);
+      lastPos.copy(arrow.position);
+      const power = flying ? Math.min(0.5 + speed * 0.02, 1.4) : 0;
+      flame.material.uniforms.uTime.value = t;
+      flame.material.uniforms.uPower.value = power;
+      flame.scale.set(1, 1.2 + power * 3.5, 1);
+      flame.position.x = -4.2 - flame.scale.y / 2;
+      heat.scale.setScalar(0.3 + charge * 0.9);
+      heat.material.opacity = charge * (1 - 0.5 * smoothstep(0, 0.1, k));
+
+      // Bara keluar dari ekor (banyak saat melesat) dan percik kecil dari kepala saat mengisi tenaga.
+      if (dt > 0 && arrow.visible) {
+        const s = arrow.scale.x;
+        tail.set(-4.4, 0, 0).applyQuaternion(arrow.quaternion).multiplyScalar(s).add(arrow.position);
+        back.set(-1, 0, 0).applyQuaternion(arrow.quaternion);
+        if (flying) embers.emit(tail, back.multiplyScalar(3), Math.min(Math.ceil(speed * dt * 9 + 3), 60), 1.2);
+        else if (charge > 0.2) {
+          head.set(4.5, 0, 0).applyQuaternion(arrow.quaternion).add(arrow.position);
+          embers.emit(head, back.set(0, 1, 0), Math.ceil(charge * 3), 0.8);
+        }
+      }
+      embers.update(dt);
+
+      const e = smoothstep(LAUNCH - 0.01, LAUNCH + 0.14, local);
+      shock.visible = shock2.visible = e > 0 && e < 1;
+      shock.scale.setScalar(0.5 + e * 9);
+      shock2.scale.setScalar(0.5 + smoothstep(0, 0.6, e) * 6);
+      shock.material.opacity = (1 - e) * 0.9;
+      shock2.material.opacity = (1 - smoothstep(0, 0.6, e)) * 0.7;
+
+      // Hentakan saat lepas + getar halus selama terbang.
+      api.shake = Math.sin(Math.PI * smoothstep(LAUNCH - 0.02, LAUNCH + 0.12, local)) * 0.35 + (flying ? 0.05 : 0) + charge * (1 - Math.min(k * 50, 1)) * 0.04;
     },
   };
+  return api;
 }

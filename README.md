@@ -1,4 +1,4 @@
-# Website Artemis (v1, 3 Okt 2026)
+# Website Artemis (v3, 5 Okt 2026)
 
 Situs statis: HTML + ES modules + Three.js 0.186.1 (import map, jsDelivr). Tanpa build, tanpa node_modules.
 
@@ -15,10 +15,17 @@ Lewati loader saat QA: `http://localhost:3000/?enter`
 | Posisi objek 3D / sisi teks kiri-kanan | `src/camera-path.js` |
 | Bentuk/animasi satu objek 3D | `src/stations/<nama>.js` |
 | Kualitas grafis (HP vs desktop), bloom, kabut | `src/main.js` → `startWorld()` |
+| Desain mockup yang bergantian di section Website | `src/stations/website.js` → tulis fungsi gambar baru, masukkan ke `PAGES`; lama tampil `CYCLE` |
+| Cerita video iklan (iklan → chart → DEAL) | `src/stations/video.js` → `sceneAd` / `sceneData` / `sceneDeal`, durasi babak `ACT` |
+| Lintasan & api panah, titik lepas/menancap | `src/stations/hero.js` → `LAUNCH`, `HIT`, `PLANTED`; partikel bara di `src/fx.js` |
+| Helix partikel di About | `src/stations/about.js` → `H`, `FORM` (detik pembentukan) |
+| Satelit (bentuk, ukuran, posisi) | `src/stations/process.js` → `buildSatellite()`, `hero.position` / `hero.scale` |
+| Vignette, aberasi warna, garis sapuan diagonal | `src/main.js` → `lensShader()` |
+| Efek judul glitch | `src/main.js` → `glitchIn()` + kelas `.gl-h` / `.gl-b` di `styles/main.css` |
 
 ## Menambah section baru
 1. Tambah entri di `content/id.json` → `sections` (id unik).
-2. (Opsional) objek 3D: buat `src/stations/<id>.js` yang meng-export `create(theme)` → `{ group, update(time, { local, mouse }) }`, lalu daftarkan di `stations` dalam `src/main.js`.
+2. (Opsional) objek 3D: buat `src/stations/<id>.js` yang meng-export `create(theme, quality)` → `{ group, update(time, { local, mouse, reduced }) }`, lalu daftarkan di `stations` dalam `src/main.js`. Station boleh mengisi `shake` (angka) supaya kamera bergetar.
 3. Tambah baris `<id>: { at, dist, side }` di `src/camera-path.js`. Tanpa baris ini section tetap tampil (kamera di tengah).
 
 ## Teks menyala mengikuti animasi
@@ -31,10 +38,10 @@ Station boleh mengisi `activeItem` (index item). `main.js` otomatis memberi kela
 Lagu sekarang: "Epic Cinematic" oleh The_Mountain (Pixabay Content License), https://pixabay.com/music/build-up-scenes-epic-cinematic-576567/ . Diproses: hening awal/akhir dipotong, -18 LUFS, fade 1,2 dtk / 2,5 dtk, 160 kbps.
 Tanpa file itu, semua kontrol musik tersembunyi. Volume, filter, dan reaksi terhadap warp diatur di `src/audio.js` (`BASE`, `BOOST`, `CLOSED`, `OPEN`).
 
-## Online (Netlify Drop)
-1. Buka https://app.netlify.com/drop (login Netlify).
-2. Seret folder `artemis/website` ke halaman itu. Tunggu ±1 menit, dapat URL `xxx.netlify.app`.
-3. Di Site settings → ganti nama situs (mis. `artemis-ai`). Lalu ganti `og:image` di `index.html` ke URL absolut (`https://<nama>.netlify.app/assets/og.png`) dan seret ulang folder ke tab Deploys.
+## Online (GitHub → Netlify otomatis)
+Repo: https://github.com/ArtemisZilsa/Artemis-Main-Website- (branch `main`), terhubung ke proyek Netlify. Setiap push ke `main` langsung live.
+- Pengaturan Netlify: build command kosong, publish directory `.`.
+- Ganti `og:image` di `index.html` ke URL absolut (`https://<nama>.netlify.app/assets/og.png`).
 `_headers` dan `robots.txt` ikut terbaca otomatis.
 
 ## Catatan
